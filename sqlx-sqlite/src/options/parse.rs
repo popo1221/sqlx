@@ -102,6 +102,84 @@ impl SqliteConnectOptions {
 
                     "vfs" => options.vfs = Some(Cow::Owned(value.into_owned())),
 
+                    // References https://www.sqlite.org/pragma.html
+                    "pragma_analysis_limit" | 
+                    "pragma_application_id" | 
+                    "pragma_auto_vacuum" | 
+                    "pragma_automatic_index" | 
+                    "pragma_busy_timeout" | 
+                    "pragma_cache_size" | 
+                    "pragma_cache_spill" | 
+                    "pragma_case_sensitive_like" | 
+                    "pragma_cell_size_check" | 
+                    "pragma_checkpoint_fullfsync" | 
+                    "pragma_collation_list" | 
+                    "pragma_compile_options" | 
+                    "pragma_count_changes" | 
+                    "pragma_data_store_directory" | 
+                    "pragma_data_version" | 
+                    "pragma_database_list" | 
+                    "pragma_default_cache_size" | 
+                    "pragma_defer_foreign_keys" | 
+                    "pragma_empty_result_callbacks" | 
+                    "pragma_encoding" | 
+                    "pragma_foreign_key_check" | 
+                    "pragma_foreign_key_list" | 
+                    "pragma_foreign_keys" | 
+                    "pragma_freelist_count" | 
+                    "pragma_full_column_names" | 
+                    "pragma_fullfsync" | 
+                    "pragma_function_list" | 
+                    "pragma_hard_heap_limit" | 
+                    "pragma_ignore_check_constraints" | 
+                    "pragma_incremental_vacuum" | 
+                    "pragma_index_info" | 
+                    "pragma_index_list" | 
+                    "pragma_index_xinfo" | 
+                    "pragma_integrity_check" | 
+                    "pragma_journal_mode" | 
+                    "pragma_journal_size_limit" | 
+                    "pragma_legacy_alter_table" | 
+                    "pragma_legacy_file_format" | 
+                    "pragma_locking_mode" | 
+                    "pragma_max_page_count" | 
+                    "pragma_mmap_size" | 
+                    "pragma_module_list" | 
+                    "pragma_optimize" | 
+                    "pragma_page_count" | 
+                    "pragma_page_size" | 
+                    "pragma_parser_trace" | 
+                    "pragma_pragma_list" | 
+                    "pragma_query_only" | 
+                    "pragma_quick_check" | 
+                    "pragma_read_uncommitted" | 
+                    "pragma_recursive_triggers" | 
+                    "pragma_reverse_unordered_selects" | 
+                    "pragma_schema_version" | 
+                    "pragma_secure_delete" | 
+                    "pragma_short_column_names" | 
+                    "pragma_shrink_memory" | 
+                    "pragma_soft_heap_limit" | 
+                    "pragma_stats" | 
+                    "pragma_synchronous" | 
+                    "pragma_table_info" | 
+                    "pragma_table_list" | 
+                    "pragma_table_xinfo" | 
+                    "pragma_temp_store" | 
+                    "pragma_temp_store_directory" | 
+                    "pragma_threads" | 
+                    "pragma_trusted_schema" | 
+                    "pragma_user_version" | 
+                    "pragma_vdbe_addoptrace" | 
+                    "pragma_vdbe_debug" | 
+                    "pragma_vdbe_listing" | 
+                    "pragma_vdbe_trace" | 
+                    "pragma_wal_autocheckpoint" | 
+                    "pragma_wal_checkpoint" | 
+                    "pragma_writable_schema" => {
+                        options = options.pragma(key.into_owned().replace("pragma_", ""), Cow::Owned(value.into_owned()));
+                    },
+
                     _ => {
                         return Err(Error::Configuration(
                             format!("unknown query parameter `{key}` while parsing connection URL")
